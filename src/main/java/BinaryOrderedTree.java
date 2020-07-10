@@ -1,15 +1,17 @@
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BinaryOrderedTree {
 
 	Node root;
 
-	public BinaryOrderedTree(int data) {
-		root = new Node(data);
-	}
+//	public BinaryOrderedTree(int data) {
+//		root = new Node(data);
+//	}
 
 	/** Adds element at position in order and returns parent **/
 	/** Removes if it already exists **/
-	Node addElement(final int data) {
+	public Node addElement(final int data) {
 
 		if (root == null) {
 			root = new Node(data);
@@ -39,7 +41,7 @@ public class BinaryOrderedTree {
 	}
 
 	/** Deletes element at position in order and returns parent or returns null **/
-	Node deleteElement(Node node, int data) {
+	public Node deleteElement(Node node, int data) {
 		if (node == null) {
 			return null;
 		} else {
@@ -65,29 +67,44 @@ public class BinaryOrderedTree {
 		}
 	}
 
+	// printing leaf nodes in the order Right to left
+	public void traverseLeaves(Node root) {
+		if (root == null)
+			return;
+
+		if (root.left == null && root.right == null) {
+			System.out.print(root.data + " ");
+			return;
+		}
+
+		if (root.right != null)
+			traverseLeaves(root.right);
+
+		if (root.left != null)
+			traverseLeaves(root.left);
+	}
+
+	// printing breadth first order traversal of the tree
+	public void printBinaryTreeBFSTraversal(Node root) {
+		Queue<Node> q = new LinkedList<Node>();
+		q.add(root);
+		while (!q.isEmpty()) {
+			Node temp = q.poll();
+			System.out.println(temp.data + " ");
+
+			if (temp.left != null)
+				q.add(temp.left);
+			if (temp.right != null)
+				q.add(temp.right);
+		}
+
+	}
+
 	private Node minNode(Node root) {
 		if (root.left != null)
 			return minNode(root.left);
 		else
 			return null;
-	}
-
-	public static void main(String[] args) {
-		BinaryOrderedTree tree = new BinaryOrderedTree(8);
-		TraverseLeaves traverseLeaves = new TraverseLeaves();
-		tree.addElement(3);
-		tree.addElement(10);
-		tree.addElement(1);
-		tree.addElement(6);
-		tree.addElement(14);
-		tree.addElement(4);
-		tree.addElement(7);
-		tree.addElement(13);
-
-		traverseLeaves.traverseLeaves(tree.root);
-		//tree.deleteElement(tree.root, 13);
-		//System.out.println("\n");
-		//traverseLeaves.traverseLeaves(tree.root);
 	}
 
 }
